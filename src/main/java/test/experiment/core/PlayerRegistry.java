@@ -16,13 +16,11 @@
 
 package test.experiment.core;
 
-/** An entity that exists on the world map. */
-interface Entity {
+import java.util.List;
 
-  enum Type {
-    PLAYER,
-    COIN
-  }
+interface PlayerRegistry<T extends Player> {
 
-  Type getType();
+  List<T> getAll();
+
+  T getByUsername(String username);
 }

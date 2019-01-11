@@ -16,13 +16,9 @@
 
 package test.experiment.core;
 
-/** An entity that exists on the world map. */
-interface Entity {
+interface Player extends Entity {
 
-  enum Type {
-    PLAYER,
-    COIN
-  }
+  String getUsername();
 
-  Type getType();
+  int getScore();
 }

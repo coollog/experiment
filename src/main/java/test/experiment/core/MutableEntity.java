@@ -17,9 +17,8 @@
 package test.experiment.core;
 
 /** An entity that exists on the world map and can be manipulated. */
-public interface MutableEntity extends Entity {
-
-  void moveTo(Position position);
+// TODO: Make into package-private class.
+interface MutableEntity extends Entity, Moveable {
 
   void delete();
 }

@@ -17,7 +17,7 @@
 package test.experiment.core;
 
 /** Holds several {@link Entity}s. */
-public interface EntityCollection {
+interface EntityCollection {
 
   void add(Entity entity);
 

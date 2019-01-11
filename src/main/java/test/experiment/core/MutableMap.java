@@ -17,6 +17,5 @@
 package test.experiment.core;
 
 /** The entire game world map that can be changed. */
-public interface MutableMap extends Map, EntityCollection {
-
-}
+// TODO: Make into package-private class.
+interface MutableMap extends Map, EntityCollection {}

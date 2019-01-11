@@ -16,13 +16,15 @@
 
 package test.experiment.core;
 
-/** An entity that exists on the world map. */
-interface Entity {
+interface Controller {
 
-  enum Type {
-    PLAYER,
-    COIN
-  }
+  Map getMap();
 
-  Type getType();
+  PlayerRegistry getPlayerRegistry();
+
+  Player addPlayer(String username);
+
+  void removePlayer(String username);
+
+  Moveable.Result move(Player player, Direction direction);
 }

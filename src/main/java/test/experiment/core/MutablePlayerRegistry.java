@@ -16,13 +16,10 @@
 
 package test.experiment.core;
 
-/** An entity that exists on the world map. */
-interface Entity {
+// TODO: Make into package-private class.
+interface MutablePlayerRegistry extends PlayerRegistry<MutablePlayer> {
 
-  enum Type {
-    PLAYER,
-    COIN
-  }
+  void register(MutablePlayer player);
 
-  Type getType();
+  void deregister(MutablePlayer player);
 }

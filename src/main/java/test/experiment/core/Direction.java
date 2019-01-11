@@ -16,13 +16,10 @@
 
 package test.experiment.core;
 
-/** An entity that exists on the world map. */
-interface Entity {
+enum Direction {
 
-  enum Type {
-    PLAYER,
-    COIN
-  }
-
-  Type getType();
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
 }

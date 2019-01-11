@@ -16,13 +16,19 @@
 
 package test.experiment.core;
 
-/** An entity that exists on the world map. */
-interface Entity {
+import java.time.Duration;
 
-  enum Type {
-    PLAYER,
-    COIN
+interface Moveable {
+
+  enum Result {
+
+    SUCCESS,
+    OCCUPIED,
+    OUT_OF_BOUNDS,
+    NOT_READY
   }
 
-  Type getType();
+  Result moveTo(Position position);
+
+  Duration getDelayTillReady();
 }

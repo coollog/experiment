@@ -16,13 +16,6 @@
 
 package test.experiment.core;
 
-/** An entity that exists on the world map. */
-interface Entity {
+interface MutablePlayer extends Player, MutableEntity, Moveable {
 
-  enum Type {
-    PLAYER,
-    COIN
-  }
-
-  Type getType();
 }

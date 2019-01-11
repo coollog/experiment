@@ -19,7 +19,7 @@ package test.experiment.core;
 import java.util.Optional;
 
 /** The entire game world map. */
-public interface Map {
+interface Map {
 
   int getWidth();
 

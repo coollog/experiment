@@ -16,10 +16,41 @@
 
 package test.experiment.core;
 
+import java.util.Objects;
+
 /** Represents a position on the world map. */
-public interface Position {
+class Position {
 
-  int getRow();
+  private final int row;
+  private final int column;
 
-  int getColumn();
+  Position(int row, int column) {
+    this.row = row;
+    this.column = column;
+  }
+
+  int getRow() {
+    return row;
+  }
+
+  int getColumn() {
+    return column;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) {
+      return true;
+    }
+    if (!(other instanceof Position)) {
+      return false;
+    }
+    Position otherPosition = (Position) other;
+    return row == otherPosition.row && column == otherPosition.column;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(row, column);
+  }
 }
