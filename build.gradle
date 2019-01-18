@@ -1,9 +1,15 @@
 plugins {
   id 'java'
+  id 'application'
   id 'checkstyle'
   id 'com.github.sherter.google-java-format' version '0.8'
   id 'net.ltgt.apt' version '0.19'
-  id 'net.ltgt.errorprone' version '0.6'
+  id 'net.ltgt.errorprone' version '0.6.1'
+
+  id 'com.google.cloud.tools.jib' version '1.0.0'
+
+  id 'org.springframework.boot' version '2.1.2.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.6.RELEASE'
 }
 
 group 'test'
@@ -16,6 +22,11 @@ repositories {
 }
 
 dependencies {
+  implementation group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
+
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.2.RELEASE'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.2.RELEASE'
+
   testCompile group: 'junit', name: 'junit', version: '4.12'
 
   // NullAway errorprone plugin
@@ -23,16 +34,24 @@ dependencies {
   errorprone 'com.google.errorprone:error_prone_core:2.3.2'
   // Using github.com/google/error-prone-javac is required when running on
   // JDK 8. Remove when migrating to JDK 11.
-  if (System.getProperty("java.version").startsWith("1.8.")) {
-    errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
+  if (System.getProperty('java.version').startsWith('1.8.')) {
+    errorproneJavac('com.google.errorprone:javac:9+181-r4173-1')
   }
 }
+
+//application.mainClassName = 'test.experiment.ConsoleGame'
+//application.mainClassName = 'ScannerDemo'
+//run {
+//  standardInput = System.in
+//}
+
+jib.to.image = 'gcr.io/qingyangc-sandbox/kubemmo/server'
 
 import net.ltgt.gradle.errorprone.CheckSeverity
 
 // Adds NullAway errorprone checks.
 tasks.withType(JavaCompile) {
-  if (!name.toLowerCase().contains("test")) {
+  if (!name.toLowerCase().contains('test')) {
     options.errorprone {
       check('NullAway', CheckSeverity.ERROR)
       option('NullAway:AnnotatedPackages', 'com.google.cloud.tools')

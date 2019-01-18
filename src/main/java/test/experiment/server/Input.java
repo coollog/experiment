@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC. All rights reserved.
+ * Copyright 2019 Google LLC. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,8 +14,21 @@
  * the License.
  */
 
-package test.experiment.core;
+package test.experiment.server;
 
-/** The entire game world map that can be changed. */
-// TODO: Make into package-private class.
-interface MutableMap extends Map, EntityCollection {}
+import java.util.Optional;
+import javax.annotation.Nullable;
+import test.experiment.core.Direction;
+
+class Input {
+
+  @Nullable private final Direction nextDirection;
+
+  Input(Direction nextDirection) {
+    this.nextDirection = nextDirection;
+  }
+
+  Optional<Direction> getNextDirection() {
+    return Optional.ofNullable(nextDirection);
+  }
+}

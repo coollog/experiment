@@ -17,10 +17,11 @@
 package test.experiment.core;
 
 import java.util.List;
+import java.util.Optional;
 
-interface PlayerRegistry<T extends Player> {
+public interface PlayerRegistry<T extends Player> {
 
   List<T> getAll();
 
-  T getByUsername(String username);
+  Optional<T> getByUsername(String username);
 }

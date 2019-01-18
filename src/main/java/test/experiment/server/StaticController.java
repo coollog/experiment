@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC. All rights reserved.
+ * Copyright 2019 Google LLC. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -14,20 +14,16 @@
  * the License.
  */
 
-package test.experiment.core;
+package test.experiment.server;
 
-import java.time.Duration;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public interface Moveable {
+@Controller
+public class StaticController {
 
-  enum Result {
-    SUCCESS,
-    OCCUPIED,
-    OUT_OF_BOUNDS,
-    NOT_READY
+  @RequestMapping("/browser")
+  public String browser() {
+    return "browser.html";
   }
-
-  Result moveTo(Position position);
-
-  Duration getDelayTillReady();
 }

@@ -16,14 +16,10 @@
 
 package test.experiment.core;
 
-import java.util.Optional;
-
 /** The entire game world map. */
-interface Map {
+public interface WorldMap {
 
-  int getWidth();
+  int getRowCount();
 
-  int getHeight();
-
-  Optional<Entity> get(Position position);
+  int getColumnCount();
 }

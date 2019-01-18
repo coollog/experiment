@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.Function;
 
 /** Static helpers for {@link Position}. */
-class Positions {
+public class Positions {
 
   /**
    * Iterates over the positions in a grid row-first.
@@ -32,7 +32,7 @@ class Positions {
    * @param <V> type of mapped result
    * @return list of mapped results
    */
-  static <V> List<V> map(int width, int height, Function<Position, V> positionFunction) {
+  public static <V> List<V> map(int width, int height, Function<Position, V> positionFunction) {
     List<V> results = new ArrayList<>();
 
     for (int row = 0; row < height; row++) {
@@ -42,5 +42,20 @@ class Positions {
     }
 
     return results;
+  }
+
+  public static Position moveTowards(Position position, Direction direction) {
+    switch (direction) {
+      case UP:
+        return new Position(position.getRow() - 1, position.getColumn());
+      case DOWN:
+        return new Position(position.getRow() + 1, position.getColumn());
+      case LEFT:
+        return new Position(position.getRow(), position.getColumn() - 1);
+      case RIGHT:
+        return new Position(position.getRow(), position.getColumn() + 1);
+      default:
+        throw new IllegalStateException("unknown direction: " + direction);
+    }
   }
 }

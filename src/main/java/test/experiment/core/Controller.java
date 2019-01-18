@@ -16,15 +16,46 @@
 
 package test.experiment.core;
 
-interface Controller {
+import java.util.Set;
 
-  Map getMap();
+public class Controller {
 
-  PlayerRegistry getPlayerRegistry();
+  private static final int WORLD_ROW_COUNT = 40;
+  private static final int WORLD_COLUMN_COUNT = 60;
 
-  Player addPlayer(String username);
+  private final MutableWorldMap worldMap = new MutableWorldMap(WORLD_COLUMN_COUNT, WORLD_ROW_COUNT);
+  private final MutablePlayerRegistry playerRegistry = new MutablePlayerRegistry();
 
-  void removePlayer(String username);
+  public WorldMap getMap() {
+    return worldMap;
+  }
 
-  Moveable.Result move(Player player, Direction direction);
+  public Set<Entity> getAllEntities() {
+    return worldMap.getAll();
+  }
+
+  public PlayerRegistry<? extends Player> getPlayerRegistry() {
+    return playerRegistry;
+  }
+
+  public Player addPlayer(String username, Position position) {
+    if (playerRegistry.getByUsername(username).isPresent()) {
+      throw new IllegalStateException("username taken");
+    }
+
+    MutablePlayer player = new MutablePlayer(username, position);
+    if (!worldMap.add(player)) {
+      throw new IllegalStateException("position occupied");
+    }
+    playerRegistry.register(player);
+    return player;
+  }
+
+  public void removePlayer(String username) {}
+
+  public Moveable.Result move(Player player, Direction direction) {
+    MutablePlayer mutablePlayer = playerRegistry.getMutable(player);
+    Position newPosition = Positions.moveTowards(mutablePlayer.getPosition(), direction);
+    return mutablePlayer.moveTo(newPosition);
+  }
 }

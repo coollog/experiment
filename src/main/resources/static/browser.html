@@ -1,0 +1,81 @@
+<script>
+  function loop() {
+    fetch('http://localhost:8080/view')
+      .then((resp) => resp.json())
+      .then(function(data) {
+        draw(data);
+
+        setTimeout(loop, 100);
+      })
+      .catch(function(error) {
+        // If there is any error you will catch them here
+      });
+  }
+
+  function draw(data) {
+    const canvas = document.getElementById('view');
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const context = canvas.getContext('2d');
+    context.scale(2, 2);
+
+    const mapRowCount = data.rowCount;
+    const mapColumnCount = data.columnCount;
+    function rowToY(row) {
+      return canvasHeight * row / mapRowCount;
+    }
+    function columnToX(column) {
+      return canvasWidth * column / mapColumnCount;
+    }
+
+    context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    // Draws cells.
+    context.lineWidth = 0.5;
+    context.strokeStyle = '#eee';
+    for (let row = 0; row < mapRowCount; row ++) {
+      const lineY = rowToY(row);
+
+      context.beginPath();
+      context.moveTo(0, lineY);
+      context.lineTo(canvasWidth, lineY);
+      context.stroke();
+    }
+    for (let column = 0; column < mapColumnCount; column ++) {
+      const lineX = columnToX(column);
+
+      context.beginPath();
+      context.moveTo(lineX, 0);
+      context.lineTo(lineX, canvasHeight);
+      context.stroke();
+    }
+
+    // Draws entities.
+    for (let entity of data.entities) {
+      const position = entity.position;
+
+      context.font = '18px Arial';
+      context.fillStyle = '#000';
+      context.textBaseline = 'top';
+      context.textAlign = 'left';
+
+      switch (entity.type) {
+        case 'player':
+          context.fillText('P', columnToX(position.column), rowToY(position.row));
+          context.font = '12px Arial';
+          context.fillStyle = '#bbb';
+          context.fillText(entity.username, columnToX(position.column), rowToY(position.row + 1));
+          break;
+
+        case 'coin':
+          context.fillText('C', columnToX(position.column), rowToY(position.row));
+          break;
+      }
+    }
+    context.scale(0.5, 0.5);
+  }
+
+  document.addEventListener('DOMContentLoaded', loop, false);
+</script>
+
+<canvas id="view" width="1200" height="800" style="width: 600px; height: 400px"></canvas>

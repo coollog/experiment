@@ -16,7 +16,7 @@
 
 package test.experiment.core;
 
-interface Player extends Entity {
+public interface Player extends Entity {
 
   String getUsername();
 

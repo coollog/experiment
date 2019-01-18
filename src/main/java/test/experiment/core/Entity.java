@@ -16,8 +16,10 @@
 
 package test.experiment.core;
 
+import java.util.function.Function;
+
 /** An entity that exists on the world map. */
-interface Entity {
+public interface Entity {
 
   enum Type {
     PLAYER,
@@ -25,4 +27,8 @@ interface Entity {
   }
 
   Type getType();
+
+  Position getPosition();
+
+  void setMoveToReceiver(Function<Position, Moveable.Result> moveToHandler);
 }

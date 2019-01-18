@@ -16,10 +16,40 @@
 
 package test.experiment.core;
 
-// TODO: Make into package-private class.
-interface MutablePlayerRegistry extends PlayerRegistry<MutablePlayer> {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-  void register(MutablePlayer player);
+class MutablePlayerRegistry implements PlayerRegistry<MutablePlayer> {
 
-  void deregister(MutablePlayer player);
+  private final Map<String, MutablePlayer> usernameToPlayerMap = new HashMap<>();
+  private final Map<Player, MutablePlayer> players = new HashMap<>();
+
+  void register(MutablePlayer player) {
+    usernameToPlayerMap.put(player.getUsername(), player);
+    players.put(player, player);
+  }
+
+  void deregister(MutablePlayer player) {
+    usernameToPlayerMap.remove(player.getUsername());
+    players.remove(player);
+  }
+
+  MutablePlayer getMutable(Player player) {
+    return players.get(player);
+  }
+
+  @Override
+  public List<MutablePlayer> getAll() {
+    return null;
+  }
+
+  @Override
+  public Optional<MutablePlayer> getByUsername(String username) {
+    if (usernameToPlayerMap.containsKey(username)) {
+      return Optional.of(usernameToPlayerMap.get(username));
+    }
+    return Optional.empty();
+  }
 }

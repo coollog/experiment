@@ -16,6 +16,61 @@
 
 package test.experiment.core;
 
-interface MutablePlayer extends Player, MutableEntity, Moveable {
+import java.time.Duration;
+import java.util.function.Function;
+import javax.annotation.Nullable;
 
+class MutablePlayer implements Player, MutableEntity, Moveable {
+
+  private final String username;
+
+  private Position position;
+  @Nullable private Function<Position, Result> moveToHandler;
+
+  MutablePlayer(String username, Position position) {
+    this.username = username;
+    this.position = position;
+  }
+
+  @Override
+  public void delete() {}
+
+  @Override
+  public Result moveTo(Position position) {
+    Result result = moveToHandler == null ? Result.SUCCESS : moveToHandler.apply(position);
+    if (result == Result.SUCCESS) {
+      this.position = position;
+    }
+    return result;
+  }
+
+  @Override
+  public Duration getDelayTillReady() {
+    return Duration.ZERO;
+  }
+
+  @Override
+  public String getUsername() {
+    return username;
+  }
+
+  @Override
+  public int getScore() {
+    return 0;
+  }
+
+  @Override
+  public Type getType() {
+    return Type.PLAYER;
+  }
+
+  @Override
+  public Position getPosition() {
+    return position;
+  }
+
+  @Override
+  public void setMoveToReceiver(Function<Position, Result> moveToHandler) {
+    this.moveToHandler = moveToHandler;
+  }
 }

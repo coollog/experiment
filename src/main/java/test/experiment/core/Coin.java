@@ -16,7 +16,7 @@
 
 package test.experiment.core;
 
-interface Coin extends Entity {
+public interface Coin extends Entity {
 
   int getValue();
 }

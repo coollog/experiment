@@ -16,12 +16,14 @@
 
 package test.experiment.core;
 
+import java.util.Set;
+
 /** Holds several {@link Entity}s. */
 interface EntityCollection {
 
-  void add(Entity entity);
+  boolean add(Entity entity);
 
   void remove(Entity entity);
 
-  void update(Entity entity);
+  Set<Entity> getAll();
 }
