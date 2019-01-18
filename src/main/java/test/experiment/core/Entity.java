@@ -31,4 +31,10 @@ public interface Entity {
   Position getPosition();
 
   void setMoveToReceiver(Function<Position, Moveable.Result> moveToHandler);
+
+  void collide(Entity entity);
+
+  void destroy();
+
+  void setDestroyCallback(Runnable destroyCallback);
 }

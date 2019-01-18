@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: player3
+  labels:
+    app: player3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: player3
+  template:
+    metadata:
+      labels:
+        app: player3
+    spec:
+      containers:
+      - name: player
+        image: gcr.io/qingyangc-sandbox/kubemmo/player:random
+        imagePullPolicy: Always
+        env:
+        - name: USERNAME
+          value: "it"

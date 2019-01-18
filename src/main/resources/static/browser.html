@@ -3,6 +3,7 @@
     fetch('http://localhost:8080/view')
       .then((resp) => resp.json())
       .then(function(data) {
+        updateScores(data);
         draw(data);
 
         setTimeout(loop, 100);
@@ -17,7 +18,7 @@
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
     const context = canvas.getContext('2d');
-    context.scale(2, 2);
+    // context.scale(2, 2);
 
     const mapRowCount = data.rowCount;
     const mapColumnCount = data.columnCount;
@@ -31,7 +32,7 @@
     context.clearRect(0, 0, canvasWidth, canvasHeight);
 
     // Draws cells.
-    context.lineWidth = 0.5;
+    context.lineWidth = 1;
     context.strokeStyle = '#eee';
     for (let row = 0; row < mapRowCount; row ++) {
       const lineY = rowToY(row);
@@ -54,7 +55,7 @@
     for (let entity of data.entities) {
       const position = entity.position;
 
-      context.font = '18px Arial';
+      context.font = Math.floor(rowToY(1)) + 'px Arial';
       context.fillStyle = '#000';
       context.textBaseline = 'top';
       context.textAlign = 'left';
@@ -62,7 +63,7 @@
       switch (entity.type) {
         case 'player':
           context.fillText('P', columnToX(position.column), rowToY(position.row));
-          context.font = '12px Arial';
+          context.font = Math.floor(rowToY(1) * 0.6) + 'px Arial';
           context.fillStyle = '#bbb';
           context.fillText(entity.username, columnToX(position.column), rowToY(position.row + 1));
           break;
@@ -72,10 +73,29 @@
           break;
       }
     }
-    context.scale(0.5, 0.5);
+
+    // context.scale(0.5, 0.5);
+  }
+
+  function updateScores(data) {
+    let scores = '';
+    for (let entity of data.entities) {
+      if (entity.type === "player") {
+        scores += '<score>' + entity.username + ': ' + entity.score + '</score>'
+      }
+    }
+    document.getElementsByTagName('scores')[0].innerHTML = scores;
   }
 
   document.addEventListener('DOMContentLoaded', loop, false);
 </script>
 
-<canvas id="view" width="1200" height="800" style="width: 600px; height: 400px"></canvas>
+<canvas id="view" width="600" height="400"></canvas>
+
+<style>
+  scores, score {
+    display: block;
+    font: 18px "Arial Black"
+  }
+</style>
+<scores></scores>

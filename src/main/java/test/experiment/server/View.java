@@ -63,20 +63,25 @@ public class View {
 
     public final String type = "player";
     public final String username;
+    public final int score;
 
     private SerializedPlayer(Player player) {
       super(player);
 
       this.username = player.getUsername();
+      this.score = player.getScore();
     }
   }
 
   public static class SerializedCoin extends SerializedEntity {
 
     public final String type = "coin";
+    public final int value;
 
     private SerializedCoin(Coin coin) {
       super(coin);
+
+      this.value = coin.getValue();
     }
   }
 

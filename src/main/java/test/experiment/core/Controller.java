@@ -20,8 +20,8 @@ import java.util.Set;
 
 public class Controller {
 
-  private static final int WORLD_ROW_COUNT = 40;
-  private static final int WORLD_COLUMN_COUNT = 60;
+  private static final int WORLD_ROW_COUNT = 8;
+  private static final int WORLD_COLUMN_COUNT = 12;
 
   private final MutableWorldMap worldMap = new MutableWorldMap(WORLD_COLUMN_COUNT, WORLD_ROW_COUNT);
   private final MutablePlayerRegistry playerRegistry = new MutablePlayerRegistry();
@@ -45,13 +45,25 @@ public class Controller {
 
     MutablePlayer player = new MutablePlayer(username, position);
     if (!worldMap.add(player)) {
-      throw new IllegalStateException("position occupied");
+      throw new IllegalStateException("position invalid");
     }
     playerRegistry.register(player);
     return player;
   }
 
   public void removePlayer(String username) {}
+
+  public void addCoin() {
+    int coinValue = 10 + ((int) (Math.random() * 10)) * 10;
+    Position coinPosition =
+        new Position(
+            (int) (Math.random() * WORLD_ROW_COUNT), (int) (Math.random() * WORLD_COLUMN_COUNT));
+    Coin coin = new Coin(coinValue, coinPosition);
+    if (!worldMap.add(coin)) {
+      throw new IllegalStateException("position invalid");
+    }
+    coin.setDestroyCallback(this::addCoin);
+  }
 
   public Moveable.Result move(Player player, Direction direction) {
     MutablePlayer mutablePlayer = playerRegistry.getMutable(player);

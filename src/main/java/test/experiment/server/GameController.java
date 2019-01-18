@@ -34,7 +34,7 @@ public class GameController {
   public void init() {
     new Thread(gameLoop).start();
 
-    //    gameLoop.addPlayer("me", new Position(0, 0));
+    gameLoop.addCoin();
   }
 
   @RequestMapping("/join/{username}")

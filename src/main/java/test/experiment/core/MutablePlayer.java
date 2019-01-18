@@ -23,9 +23,11 @@ import javax.annotation.Nullable;
 class MutablePlayer implements Player, MutableEntity, Moveable {
 
   private final String username;
+  private int score;
 
   private Position position;
   @Nullable private Function<Position, Result> moveToHandler;
+  @Nullable private Runnable destroyCallback;
 
   MutablePlayer(String username, Position position) {
     this.username = username;
@@ -56,7 +58,7 @@ class MutablePlayer implements Player, MutableEntity, Moveable {
 
   @Override
   public int getScore() {
-    return 0;
+    return score;
   }
 
   @Override
@@ -72,5 +74,25 @@ class MutablePlayer implements Player, MutableEntity, Moveable {
   @Override
   public void setMoveToReceiver(Function<Position, Result> moveToHandler) {
     this.moveToHandler = moveToHandler;
+  }
+
+  @Override
+  public void collide(Entity entity) {
+    if (entity.getType() != Type.COIN) {
+      return;
+    }
+
+    score += ((Coin) entity).getValue();
+    entity.destroy();
+  }
+
+  @Override
+  public void destroy() {
+    destroyCallback.run();
+  }
+
+  @Override
+  public void setDestroyCallback(Runnable destroyCallback) {
+    this.destroyCallback = destroyCallback;
   }
 }

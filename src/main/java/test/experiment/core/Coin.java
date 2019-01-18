@@ -16,7 +16,55 @@
 
 package test.experiment.core;
 
-public interface Coin extends Entity {
+import java.util.function.Function;
+import javax.annotation.Nullable;
 
-  int getValue();
+public class Coin implements Entity {
+
+  private final int value;
+  private final Position position;
+
+  @Nullable private Runnable destroyCallback;
+
+  Coin(int value, Position position) {
+    this.value = value;
+    this.position = position;
+  }
+
+  public int getValue() {
+    return value;
+  }
+
+  @Override
+  public Type getType() {
+    return Type.COIN;
+  }
+
+  @Override
+  public Position getPosition() {
+    return position;
+  }
+
+  @Override
+  public void setMoveToReceiver(Function<Position, Moveable.Result> moveToHandler) {}
+
+  @Override
+  public void collide(Entity entity) {}
+
+  @Override
+  public void destroy() {
+    destroyCallback.run();
+  }
+
+  @Override
+  public void setDestroyCallback(Runnable destroyCallback) {
+    Runnable previousDestroyCallback = this.destroyCallback;
+    this.destroyCallback =
+        () -> {
+          if (previousDestroyCallback != null) {
+            previousDestroyCallback.run();
+          }
+          destroyCallback.run();
+        };
+  }
 }

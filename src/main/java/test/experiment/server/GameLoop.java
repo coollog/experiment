@@ -61,12 +61,11 @@ class GameLoop implements Runnable {
   }
 
   void addPlayer(String username, Position position) {
-    System.out.println("awgew");
-    actions.add(
-        () -> {
-          controller.addPlayer(username, position);
-          System.out.println("hmmmmm");
-        });
+    actions.add(() -> controller.addPlayer(username, position));
+  }
+
+  void addCoin() {
+    actions.add(controller::addCoin);
   }
 
   void setPlayerDirection(String username, Direction direction) {

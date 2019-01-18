@@ -17,6 +17,8 @@
 package test.experiment.core;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +31,7 @@ class MutableWorldMap implements WorldMap, EntityCollection {
   private final int height;
 
   private final Map<Entity, Position> entityToPositionMap = new HashMap<>();
+  private final Multimap<Position, Entity> positionToEntitiesMap = HashMultimap.create();
 
   MutableWorldMap(int width, int height) {
     this.width = width;
@@ -41,8 +44,9 @@ class MutableWorldMap implements WorldMap, EntityCollection {
       return false;
     }
 
-    entityToPositionMap.put(entity, entity.getPosition());
+    setEntityPosition(entity, entity.getPosition());
     entity.setMoveToReceiver(moveEntityFunction(entity));
+    entity.setDestroyCallback(() -> remove(entity));
     return true;
   }
 
@@ -51,6 +55,7 @@ class MutableWorldMap implements WorldMap, EntityCollection {
     Preconditions.checkArgument(entityToPositionMap.containsKey(entity));
 
     entityToPositionMap.remove(entity);
+    positionToEntitiesMap.remove(entity.getPosition(), entity);
   }
 
   @Override
@@ -68,13 +73,28 @@ class MutableWorldMap implements WorldMap, EntityCollection {
     return height;
   }
 
+  private void setEntityPosition(Entity entity, Position position) {
+    if (entityToPositionMap.containsKey(entity)) {
+      positionToEntitiesMap.remove(entityToPositionMap.get(entity), entity);
+    }
+    entityToPositionMap.put(entity, position);
+
+    // Triggers collisions.
+    for (Entity otherEntity : positionToEntitiesMap.get(position)) {
+      entity.collide(otherEntity);
+      otherEntity.collide(entity);
+    }
+
+    positionToEntitiesMap.put(position, entity);
+  }
+
   private Function<Position, Moveable.Result> moveEntityFunction(Entity entity) {
     return position -> {
       if (!isWithinBounds(position)) {
         return Moveable.Result.OUT_OF_BOUNDS;
       }
 
-      entityToPositionMap.put(entity, position);
+      setEntityPosition(entity, position);
 
       return Moveable.Result.SUCCESS;
     };
