@@ -24,8 +24,8 @@ repositories {
 dependencies {
   implementation group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
 
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.1.2.RELEASE'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.2.RELEASE'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
 
   testCompile group: 'junit', name: 'junit', version: '4.12'
 

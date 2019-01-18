@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: server
+  name: game-server
   labels:
-    app: server
+    app: game-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: server
+      app: game-server
   template:
     metadata:
       labels:
-        app: server
+        app: game-server
     spec:
       containers:
-      - name: server
+      - name: game-server
         image: gcr.io/qingyangc-sandbox/kubemmo/server
         ports:
         - containerPort: 8080
@@ -23,10 +23,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: server
+  name: game-server
 spec:
   selector:
-    app: server
+    app: game-server
   ports:
   - protocol: TCP
     port: 80
