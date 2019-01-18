@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: player
+  name: player2
   labels:
-    app: player
+    app: player2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: player
+      app: player2
   template:
     metadata:
       labels:
-        app: player
+        app: player2
     spec:
       containers:
       - name: player
@@ -20,4 +20,4 @@ spec:
         imagePullPolicy: Always
         env:
         - name: USERNAME
-          value: "me"
+          value: "you"
