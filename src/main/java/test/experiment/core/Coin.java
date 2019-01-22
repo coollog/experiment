@@ -23,6 +23,7 @@ public class Coin implements Entity {
 
   private final int value;
   private final Position position;
+  private boolean isDestroyed = false;
 
   @Nullable private Runnable destroyCallback;
 
@@ -53,7 +54,15 @@ public class Coin implements Entity {
 
   @Override
   public void destroy() {
-    destroyCallback.run();
+    if (destroyCallback != null) {
+      destroyCallback.run();
+    }
+    isDestroyed = true;
+  }
+
+  @Override
+  public boolean isDestroyed() {
+    return isDestroyed;
   }
 
   @Override

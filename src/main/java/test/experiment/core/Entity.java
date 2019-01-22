@@ -36,5 +36,7 @@ public interface Entity {
 
   void destroy();
 
+  boolean isDestroyed();
+
   void setDestroyCallback(Runnable destroyCallback);
 }

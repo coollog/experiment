@@ -24,6 +24,7 @@ class MutablePlayer implements Player, MutableEntity, Moveable {
 
   private final String username;
   private int score;
+  private boolean isDestroyed = false;
 
   private Position position;
   @Nullable private Function<Position, Result> moveToHandler;
@@ -88,7 +89,15 @@ class MutablePlayer implements Player, MutableEntity, Moveable {
 
   @Override
   public void destroy() {
-    destroyCallback.run();
+    if (destroyCallback != null) {
+      destroyCallback.run();
+    }
+    isDestroyed = true;
+  }
+
+  @Override
+  public boolean isDestroyed() {
+    return isDestroyed;
   }
 
   @Override
