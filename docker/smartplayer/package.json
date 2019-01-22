@@ -1,0 +1,13 @@
+{
+  "name": "smartplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run.js",
+  "scripts": {
+    "start": "node run.js"
+  },
+  "author": "",
+  "dependencies": {
+    "request": "^2.81.0"
+  }
+}

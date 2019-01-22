@@ -57,19 +57,21 @@
 
       context.font = Math.floor(rowToY(1)) + 'px Arial';
       context.fillStyle = '#000';
-      context.textBaseline = 'top';
-      context.textAlign = 'left';
+      context.textBaseline = 'middle';
+      context.textAlign = 'center';
 
       switch (entity.type) {
         case 'player':
-          context.fillText('P', columnToX(position.column), rowToY(position.row));
+          context.fillText('P', columnToX(position.column + 0.5), rowToY(position.row + 0.5));
           context.font = Math.floor(rowToY(1) * 0.6) + 'px Arial';
           context.fillStyle = '#bbb';
-          context.fillText(entity.username, columnToX(position.column), rowToY(position.row + 1));
+          context.fillText(entity.username, columnToX(position.column + 0.5), rowToY(position.row + 1.5));
           break;
 
         case 'coin':
-          context.fillText('C', columnToX(position.column), rowToY(position.row));
+          context.font = Math.floor(rowToY(1) * 0.4) + 'px Arial';
+          context.fillStyle = '#666';
+          context.fillText('+' + entity.value, columnToX(position.column + 0.5), rowToY(position.row + 0.5));
           break;
       }
     }
@@ -80,7 +82,7 @@
   function updateScores(data) {
     let scores = '';
     for (let entity of data.entities) {
-      if (entity.type === "player") {
+      if (entity.type === 'player') {
         scores += '<score>' + entity.username + ': ' + entity.score + '</score>'
       }
     }

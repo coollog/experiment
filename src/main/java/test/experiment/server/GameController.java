@@ -39,6 +39,8 @@ public class GameController {
 
   @RequestMapping("/join/{username}")
   public ResponseEntity<String> join(@PathVariable("username") String username) {
+    System.err.println("Got /join/" + username);
+
     gameLoop.addPlayer(username, new Position(0, 0));
     return new ResponseEntity<>("joined", HttpStatus.OK);
   }
@@ -47,6 +49,8 @@ public class GameController {
   public ResponseEntity<String> move(
       @PathVariable("username") String username,
       @PathVariable("direction") String directionString) {
+    System.err.println("Got /move/" + username + "/" + directionString);
+
     Direction direction;
     if ("up".equals(directionString)) {
       direction = Direction.UP;

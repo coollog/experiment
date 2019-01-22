@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-player
+  labels:
+    app: smart-player
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smart-player
+  template:
+    metadata:
+      labels:
+        app: smart-player
+    spec:
+      containers:
+      - name: player
+        image: gcr.io/qingyangc-sandbox/kubemmo/player:smart
+        imagePullPolicy: Always
+        env:
+        - name: USERNAME
+          value: "smart"
